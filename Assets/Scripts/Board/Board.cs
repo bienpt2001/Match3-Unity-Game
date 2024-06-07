@@ -145,9 +145,42 @@ public class Board
                 Cell cell = m_cells[x, y];
                 if (!cell.IsEmpty) continue;
 
-                NormalItem item = new NormalItem();
+                List<NormalItem> normalItemList = new List<NormalItem>();
 
-                item.SetType(Utils.GetRandomNormalType());
+                List<Cell> surroundingCells = new List<Cell>();
+                surroundingCells.Add(cell.NeighbourLeft);
+                surroundingCells.Add(cell.NeighbourRight);
+                surroundingCells.Add(cell.NeighbourBottom);
+                surroundingCells.Add(cell.NeighbourUp);
+
+                foreach (var cellTemp in surroundingCells)
+                {
+                    if(!cellTemp) continue;
+
+                    if (!cellTemp.IsEmpty)
+                    {
+                        if (cellTemp.Item.GetType().Equals(typeof(NormalItem)))
+                        {
+                            NormalItem tempNormalItem = (NormalItem)cellTemp.Item;
+                            if (tempNormalItem != null)
+                            {
+                                normalItemList.Add(tempNormalItem);
+                            }
+                        }
+                    }
+                }
+
+                List<NormalItem.eNormalType> normalTypeList = new List<NormalItem.eNormalType>();
+
+                foreach(var normalItem in normalItemList)
+                {
+                    normalTypeList.Add(normalItem.ItemType);
+                }
+
+                NormalItem item = new NormalItem();
+                
+
+                item.SetType(Utils.GetRandomNormalTypeExcept(normalTypeList.ToArray()));
                 item.SetView();
                 item.SetViewRoot(m_root);
 
