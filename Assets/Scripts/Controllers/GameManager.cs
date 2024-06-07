@@ -35,6 +35,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private eLevelMode currentMode;
+    public eLevelMode CurrentMode => currentMode;
 
     private GameSettings m_gameSettings;
 
@@ -100,11 +102,22 @@ public class GameManager : MonoBehaviour
         m_levelCondition.ConditionCompleteEvent += GameOver;
 
         State = eStateGame.GAME_STARTED;
+
+        currentMode = mode;
     }
 
     public void GameOver()
     {
         StartCoroutine(WaitBoardController());
+    }
+
+    internal void RestartLevel()
+    {
+        if (m_boardController)
+        {
+            ClearLevel();
+            LoadLevel(currentMode);
+        }
     }
 
     internal void ClearLevel()
