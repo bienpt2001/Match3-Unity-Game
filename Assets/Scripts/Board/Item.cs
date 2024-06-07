@@ -10,7 +10,18 @@ public class Item
     public Cell Cell { get; private set; }
 
     public Transform View { get; private set; }
+    public object SpriteRender { get; private set; }
 
+    private static GameObject prefabItem;
+
+    private Sprite itemSprite;
+
+
+    // Set the item sprite skin
+    protected virtual void SetSprite(Sprite sprite)
+    {
+        itemSprite = sprite;
+    }
 
     public virtual void SetView()
     {
@@ -18,14 +29,31 @@ public class Item
 
         if (!string.IsNullOrEmpty(prefabname))
         {
-            GameObject prefab = Resources.Load<GameObject>(prefabname);
+            // Use resources load only once and store the prefab
+            // We use just 1 prefab because now skin is stored in inherited classes
+
+            GameObject prefab = null;
+            if (!prefabItem)
+            {
+                prefabItem = Resources.Load<GameObject>(prefabname);
+            }
+
+            prefab = prefabItem;
+
             if (prefab)
             {
                 //View = GameObject.Instantiate(prefab).transform;
                 GameObject gameObject = SimplePool.Spawn(prefab);
-                if(gameObject)
+                if (gameObject)
+                {
                     View = gameObject.transform;
-                else 
+                    SpriteRenderer spriteRenderer = View.GetComponent<SpriteRenderer>();
+                    if (spriteRenderer && itemSprite)
+                    {
+                        spriteRenderer.sprite = itemSprite;
+                    }
+                }
+                else
                     View = null;
             }
         }

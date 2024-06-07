@@ -15,28 +15,42 @@ public class BonusItem : Item
 
     public eBonusType ItemType;
 
+    private BonusItemSkinData skinData;
+
     public void SetType(eBonusType type)
     {
         ItemType = type;
+
+        if (!skinData)
+        {
+            skinData = Resources.Load<BonusItemSkinData>("scriptableObjects/BonusSkinData");
+        }
+
+        //Set the sprite of Item
+
+        if (skinData)
+            SetSprite(skinData.GetBonusSkin(type));
     }
 
     protected override string GetPrefabName()
     {
         string prefabname = string.Empty;
-        switch (ItemType)
-        {
-            case eBonusType.NONE:
-                break;
-            case eBonusType.HORIZONTAL:
-                prefabname = Constants.PREFAB_BONUS_HORIZONTAL;
-                break;
-            case eBonusType.VERTICAL:
-                prefabname = Constants.PREFAB_BONUS_VERTICAL;
-                break;
-            case eBonusType.ALL:
-                prefabname = Constants.PREFAB_BONUS_BOMB;
-                break;
-        }
+        //switch (ItemType)
+        //{
+        //    case eBonusType.NONE:
+        //        break;
+        //    case eBonusType.HORIZONTAL:
+        //        prefabname = Constants.PREFAB_BONUS_HORIZONTAL;
+        //        break;
+        //    case eBonusType.VERTICAL:
+        //        prefabname = Constants.PREFAB_BONUS_VERTICAL;
+        //        break;
+        //    case eBonusType.ALL:
+        //        prefabname = Constants.PREFAB_BONUS_BOMB;
+        //        break;
+        //}
+
+        prefabname = Constants.PREFAB_ITEM;
 
         return prefabname;
     }

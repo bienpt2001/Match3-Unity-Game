@@ -17,38 +17,55 @@ public class NormalItem : Item
 
     public eNormalType ItemType;
 
+    private static NormalItemSkinData skinData;
+
     public void SetType(eNormalType type)
     {
         ItemType = type;
+
+        if (!skinData)
+        {
+            skinData = Resources.Load<NormalItemSkinData>("scriptableObjects/NormalSkinData");
+        }
+
+        //Set the sprite of Item
+
+        if(skinData)
+            SetSprite(skinData.GetNormalSkin(type));
     }
 
     protected override string GetPrefabName()
     {
         string prefabname = string.Empty;
-        switch (ItemType)
-        {
-            case eNormalType.TYPE_ONE:
-                prefabname = Constants.PREFAB_NORMAL_TYPE_ONE;
-                break;
-            case eNormalType.TYPE_TWO:
-                prefabname = Constants.PREFAB_NORMAL_TYPE_TWO;
-                break;
-            case eNormalType.TYPE_THREE:
-                prefabname = Constants.PREFAB_NORMAL_TYPE_THREE;
-                break;
-            case eNormalType.TYPE_FOUR:
-                prefabname = Constants.PREFAB_NORMAL_TYPE_FOUR;
-                break;
-            case eNormalType.TYPE_FIVE:
-                prefabname = Constants.PREFAB_NORMAL_TYPE_FIVE;
-                break;
-            case eNormalType.TYPE_SIX:
-                prefabname = Constants.PREFAB_NORMAL_TYPE_SIX;
-                break;
-            case eNormalType.TYPE_SEVEN:
-                prefabname = Constants.PREFAB_NORMAL_TYPE_SEVEN;
-                break;
-        }
+
+        // Remove skin prefabs because now we only use 1 empty prefab
+
+        //switch (ItemType)
+        //{
+        //    case eNormalType.TYPE_ONE:
+        //        prefabname = Constants.PREFAB_NORMAL_TYPE_ONE;
+        //        break;
+        //    case eNormalType.TYPE_TWO:
+        //        prefabname = Constants.PREFAB_NORMAL_TYPE_TWO;
+        //        break;
+        //    case eNormalType.TYPE_THREE:
+        //        prefabname = Constants.PREFAB_NORMAL_TYPE_THREE;
+        //        break;
+        //    case eNormalType.TYPE_FOUR:
+        //        prefabname = Constants.PREFAB_NORMAL_TYPE_FOUR;
+        //        break;
+        //    case eNormalType.TYPE_FIVE:
+        //        prefabname = Constants.PREFAB_NORMAL_TYPE_FIVE;
+        //        break;
+        //    case eNormalType.TYPE_SIX:
+        //        prefabname = Constants.PREFAB_NORMAL_TYPE_SIX;
+        //        break;
+        //    case eNormalType.TYPE_SEVEN:
+        //        prefabname = Constants.PREFAB_NORMAL_TYPE_SEVEN;
+        //        break;
+        //}
+
+        prefabname = Constants.PREFAB_ITEM;
 
         return prefabname;
     }
