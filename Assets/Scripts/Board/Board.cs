@@ -25,6 +25,8 @@ public class Board
 
     private int m_matchMin;
 
+    private Dictionary<NormalItem.eNormalType, int> normalTypeKeys = new Dictionary<NormalItem.eNormalType, int>();
+
     public Board(Transform transform, GameSettings gameSettings)
     {
         m_root = transform;
@@ -41,6 +43,8 @@ public class Board
 
     private void CreateBoard()
     {
+        normalTypeKeys.Clear();
+        normalTypeKeys = new Dictionary<NormalItem.eNormalType, int>();
         Vector3 origin = new Vector3(-boardSizeX * 0.5f + 0.5f, -boardSizeY * 0.5f + 0.5f, 0f);
         GameObject prefabBG = Resources.Load<GameObject>(Constants.PREFAB_CELL_BACKGROUND);
         for (int x = 0; x < boardSizeX; x++)
@@ -178,9 +182,9 @@ public class Board
                 }
 
                 NormalItem item = new NormalItem();
-                
+                NormalItem.eNormalType type = Utils.GetRandomNormalTypeExcept(normalTypeList.ToArray());
 
-                item.SetType(Utils.GetRandomNormalTypeExcept(normalTypeList.ToArray()));
+                item.SetType(type);
                 item.SetView();
                 item.SetViewRoot(m_root);
 
